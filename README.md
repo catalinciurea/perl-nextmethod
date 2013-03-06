@@ -11,7 +11,7 @@
 ----
 ### Details
 
-According to (Vim documentation)[http://vimdoc.sourceforge.net/htmldoc/motion.html#]m] these motion commands work only for '_Java  and similar structured languages_'
+According to [ Vim documentation ]( http://vimdoc.sourceforge.net/htmldoc/motion.html#]m) these motion commands work only for '_Java  and similar structured languages_'
 
 This plugin implements these motions in Perl scripts
 
