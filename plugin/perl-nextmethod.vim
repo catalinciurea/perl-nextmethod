@@ -1,21 +1,32 @@
-" Last Change : Mar 05 2013
+" Last Change : Mar 10 2013
 " Author      : Catalin Ciurea <catalin@cpan.org>
 " Source code : https://github.com/catalinciurea/perl-nextmethod
 " Languages   : Perl 5
 " License     : This plugin has the same license as Vim itself
+" == DESCRIPTION ================================================
+" -- This plugin provides an implementation for the [m, ]m, [M, ]M
+" motion commands. 
+" [m - moves the cursor to the previous 'sub'
+" ]m - moves the cursor to the next 'sub'
+" [M - moves the cursor to the previous 'sub' end
+" ]M - moves the cursor to the next'sub' end
+"
+" NOTES: 
+" -- these motions accept a count (2[m, 4]M, etc.) to provide 
+" the ability to jump multiple subroutines
+" -- you can use the regular c, d and y Vim operators
+" -- Visual selection is currently not supported with these motions
+" ===============================================================
 
 if exists("g:perl_next_method_loaded") || &compatible || v:version < 700
     finish
 endif
-let g:perl_next_method_version = "0.0.2"
+let g:perl_next_method_version = "0.0.1"
 
-au FileType perl noremap <silent> ]m :call Perl_method_jump('')<CR>
-au FileType perl noremap <silent> [m :call Perl_method_jump('b')<CR>
-au FileType perl noremap <silent> ]M :call Perl_method_end_jump()<CR>
-au FileType perl noremap <silent> [M :call Perl_method_jump_before()<CR>
-" have to work harder for the [M to work. Also add the case where a nr is
-" given
-" map <silent> [M :call Perl_method_end_jump('b')<CR>
+au FileType perl noremap <silent> ]m :<C-U>call Perl_method_jump('')<CR>
+au FileType perl noremap <silent> [m :<C-U>call Perl_method_jump('b')<CR>
+au FileType perl noremap <silent> ]M :<C-U>call Perl_method_end_jump()<CR>
+au FileType perl noremap <silent> [M :<C-U>call Perl_method_jump_before()<CR>
 
 function! Perl_method_jump(type) range
     let l:pattern =  '\v^\s*sub\s*\w+\s*(\(\s*.{-}\s*\))?\s*\n*\{'
@@ -25,6 +36,7 @@ function! Perl_method_jump(type) range
 endfunction
 
 function! Perl_method_jump_before() range
+    " let a:lastline -= 1
     let l:pattern =  '\v^\s*sub\s*\w+\s*(\(\s*.{-}\s*\))?\s*\n*\{'
     " retrieve the cursor position
     let l:current_pos = getpos(".")
@@ -48,9 +60,6 @@ function! Perl_method_jump_before() range
         endif
         let l:counter +=1
     endif
-    " if (l:counter == 1)
-    "     return 1
-    " endif
 
     if (getpos(".")[1] < l:current_pos[1])
         if (!l:have_previous_method)
@@ -77,6 +86,7 @@ function! Perl_method_jump_before() range
     " call Jump_to_nr_of_sub_end(l:counter, l:pattern, 'b')
 
 endfunction
+
 
 function! Perl_method_end_jump() range
     let l:pattern =  '\v^\s*sub\s*\w+\s*(\(\s*.{-}\s*\))?\s*\n*\{'
