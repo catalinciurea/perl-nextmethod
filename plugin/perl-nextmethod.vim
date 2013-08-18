@@ -1,4 +1,4 @@
-" Last Change : Mar 10 2013
+" Last Change : Aug 18 2013
 " Author      : Catalin Ciurea <catalin@cpan.org>
 " Source code : https://github.com/catalinciurea/perl-nextmethod
 " Languages   : Perl 5
@@ -10,15 +10,9 @@
 " ]m - moves the cursor to the next 'sub'
 " [M - moves the cursor to the previous 'sub' end
 " ]M - moves the cursor to the next'sub' end
-"
-" NOTES: 
-" -- these motions accept a count (2[m, 4]M, etc.) to provide 
-" the ability to jump multiple subroutines
-" -- you can use the regular c, d and y Vim operators
-" -- Visual selection is currently not supported with these motions
 " ===============================================================
 
-if exists("g:perl_next_method_loaded") || &compatible || v:version < 700
+if exists("g:perl_next_method_loaded") || exists("g:perl_next_method_disable") || &compatible || v:version < 700
     finish
 endif
 let g:perl_next_method_version = "0.0.1"
@@ -114,7 +108,7 @@ function! Jump_to_nr_of_sub_end(jumps, sub_pattern, type)
     endfor
     " if the value was incremented it means we jumped
     " somewhere on '{' in a 'sub foo {' so we call '%' to 
-    " jump to mathcing brace
+    " jump to matching brace
     if (l:pos_moved)
         keepjumps normal %
     endif
