@@ -1,1 +1,55 @@
+*perl-nextmethod.txt* [m, [M, ]m, ]M - next/previous method motion commands for perl
+
+Last change:  2013 Aug 18
+
+		  perl-nextmethod  by Catalin Ciurea (catalin@cpan.org)
+
+*perl-nextmethod* *perl-nextmethod.vim*
+
+1. Jumping to perl sub definitions                      |perl-nextmethod-cmds|
+2. Caveats                                              |perl-nextmethod-caveats|
+3. Repository                                           |perl-nextmethod-repo|
+
+This plugin is only available if 'compatible' is not set.
+You can avoid loading this plugin by setting the "g:perl_next_method_disable" variable
+in your |vimrc| file: >
+	:let g:perl_next_method_disable = 1
+
+==============================================================================
+1. Jumping to perl sub definitions                      *perl-nextmethod-cmds*
+
+                            *perl-]m*
+]m	Jump to the next perl "sub" definition
+
+                            *perl-]M*
+]M	Jump to the end of the next perl "sub" definition
+
+			    *perl-[m*
+[m      Jump to the previous perl "sub" start
+
+                            *perl-[M*
+[M	Jump to the previous perl "sub" end
+
+==============================================================================
+2. Caveats                                              *perl-nextmethod-caveats*
+
+Visual selection is currently unsupported with these motions.
+
+There is a small issue with using operators with these motions. When using 
+the y operator for example the last closing brace is not copied. Also when
+using the d operator the last brace is also left undeleted.
+
+The jumps are not maintained when using these motions. This plugin uses the
+Vim search command to move arround and this command does not preserve the
+jumps nor the ` mark (last position).
+
+==============================================================================
+2. Repository                                           *perl-nextmethod-repo*
+
+The repository for this plugin is on github.
+
+https://github.com/catalinciurea/perl-nextmethod
+
+Feel free to file issues and discuss solutions.
+==============================================================================
 vim:tw=78:ts=8:ft=help:norl:
